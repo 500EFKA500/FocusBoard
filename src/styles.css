@@ -1,0 +1,26 @@
+:root {
+  color: #19233a;
+  background: #f4f7fb;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; }
+
+button { font: inherit; }
+
+.app-shell { max-width: 1120px; margin: 0 auto; padding: 56px 24px; }
+.page-header { max-width: 650px; margin-bottom: 36px; }
+.eyebrow { color: #5d55e8; font-size: .8rem; font-weight: 700; letter-spacing: .09em; margin: 0; text-transform: uppercase; }
+h1 { font-size: clamp(2.1rem, 5vw, 3.5rem); letter-spacing: -.06em; margin: 8px 0; }
+.subtitle { color: #566176; font-size: 1.1rem; line-height: 1.5; margin: 0; }
+.board { display: grid; gap: 18px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.column { background: #fff; border: 1px solid #e3e7f0; border-radius: 16px; min-height: 260px; padding: 20px; }
+.column-heading { align-items: center; display: flex; justify-content: space-between; }
+h2 { font-size: 1.1rem; margin: 0; }
+.column-heading span { background: #edf0f8; border-radius: 999px; font-size: .8rem; padding: 3px 8px; }
+.column > p { color: #70798a; line-height: 1.45; }
+.column button { background: transparent; border: 1px dashed #b7bed0; border-radius: 9px; color: #515d75; cursor: pointer; margin-top: 18px; padding: 9px 12px; width: 100%; }
+.column button:hover { border-color: #5d55e8; color: #4c43d6; }
+@media (max-width: 700px) { .app-shell { padding: 36px 16px; } .board { grid-template-columns: 1fr; } }
