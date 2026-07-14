@@ -5,7 +5,7 @@ import seedTasks from './data/seedTasks.js'
 const columns = [
   { id: 'backlog', title: 'Бэклог', description: 'Задачи на потом' },
   { id: 'in-progress', title: 'В работе', description: 'Текущий фокус' },
-  { id: 'in-check', title: 'На проверке', description: 'Задачи на проверке' },
+  { id: 'review', title: 'На проверке', description: 'Задачи на проверке' },
   { id: 'done', title: 'Готово', description: 'Завершённые задачи' },
 ]
 
@@ -25,7 +25,8 @@ export default function App() {
           <section className="column" key={column.id} aria-labelledby={column.id}>
             <div className="column-heading">
               <h2 id={column.id}>{column.title}</h2>
-              <span aria-label="Пока нет задач">{tasks.filter((tasks) => tasks.status === column.id).length}</span>
+              <span aria-label="Пока нет задач">{tasks
+                .filter((tasks) => tasks.status === column.id).length}</span>
             </div>
             <p>{column.description}</p>
             <div className="task-list">
