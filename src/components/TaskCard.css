@@ -1,0 +1,8 @@
+.task-list { display: grid; gap: 10px; margin-top: 18px; }
+.task-card { background: #f8f9fd; border: 1px solid #e6e9f2; border-radius: 10px; padding: 12px; }
+.task-card h3 { font-size: .95rem; margin: 8px 0 5px; }
+.task-card p { color: #667187; font-size: .85rem; line-height: 1.4; margin: 0; }
+.priority { border-radius: 999px; font-size: .72rem; font-weight: 700; padding: 3px 7px; }
+.priority--high { background: #ffe5e7; color: #a5283b; }
+.priority--medium { background: #fff3cf; color: #865e00; }
+.priority--low { background: #def5e8; color: #16623b; }

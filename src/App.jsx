@@ -1,3 +1,7 @@
+import { useState } from 'react'
+import TaskCard from './components/TaskCard.jsx'
+import seedTasks from './data/seedTasks.js'
+
 const columns = [
   { id: 'backlog', title: 'Бэклог', description: 'Задачи на потом' },
   { id: 'in-progress', title: 'В работе', description: 'Текущий фокус' },
@@ -6,6 +10,8 @@ const columns = [
 ]
 
 export default function App() {
+  const [tasks] = useState(seedTasks)
+
   return (
     <main className="app-shell">
       <header className="page-header">
@@ -19,9 +25,14 @@ export default function App() {
           <section className="column" key={column.id} aria-labelledby={column.id}>
             <div className="column-heading">
               <h2 id={column.id}>{column.title}</h2>
-              <span aria-label="Пока нет задач">0</span>
+              <span aria-label="Пока нет задач">{tasks.filter((tasks) => tasks.status === column.id).length}</span>
             </div>
             <p>{column.description}</p>
+            <div className="task-list">
+              {tasks
+                .filter((tasks) => tasks.status === column.id)
+                .map((task) => <TaskCard key={task.id} task={task} />)}
+            </div>
             <button type="button">Добавить задачу</button>
           </section>
         ))}
