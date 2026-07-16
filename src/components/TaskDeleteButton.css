@@ -1,0 +1,2 @@
+.task-delete-button { background: transparent; border: 0; color: #9a5362; cursor: pointer; font-size: .8rem; margin-top: 12px; padding: 0; }
+.task-delete-button:hover { color: #a5283b; text-decoration: underline; }

@@ -10,7 +10,13 @@ const columns = [
 ]
 
 export default function App() {
-  const [tasks] = useState(seedTasks)
+  const [tasks, setTasks] = useState(seedTasks)
+
+  function handleDeleteTask(taskId) {
+    setTasks((currentTasks) =>
+      currentTasks.filter((task) => task.id !== taskId),
+    )
+  }
 
   return (
     <main className="app-shell">
@@ -32,7 +38,7 @@ export default function App() {
             <div className="task-list">
               {tasks
                 .filter((tasks) => tasks.status === column.id)
-                .map((task) => <TaskCard key={task.id} task={task} />)}
+                .map((task) => <TaskCard key={task.id} task={task} onDelete={handleDeleteTask} />)}
             </div>
             <button type="button">Добавить задачу</button>
           </section>
