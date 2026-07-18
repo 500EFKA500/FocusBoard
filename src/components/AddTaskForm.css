@@ -1,0 +1,9 @@
+.add-task-form { background: #fff; border: 1px solid #e3e7f0; border-radius: 16px; display: grid; gap: 14px; margin: 0 0 28px; padding: 20px; }
+.form-heading { align-items: center; display: flex; justify-content: space-between; }
+.form-heading h2 { margin: 4px 0 0; }
+.form-heading button { background: #5d55e8; border: 0; border-radius: 9px; color: #fff; cursor: pointer; font: inherit; font-weight: 700; padding: 10px 16px; }
+.add-task-form label { color: #4e5970; display: grid; font-size: .85rem; font-weight: 700; gap: 6px; }
+.add-task-form input, .add-task-form textarea, .add-task-form select { background: #fff; border: 1px solid #d8deeb; border-radius: 8px; color: #19233a; font: inherit; font-weight: 400; padding: 9px 10px; resize: vertical; width: 100%; }
+.add-task-form input:focus, .add-task-form textarea:focus, .add-task-form select:focus { border-color: #5d55e8; outline: 2px solid #dcd9ff; }
+.form-selects { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 520px) { .form-heading { align-items: flex-start; gap: 12px; } .form-selects { grid-template-columns: 1fr; } }

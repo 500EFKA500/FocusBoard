@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import TaskCard from './components/TaskCard.jsx'
 import seedTasks from './data/seedTasks.js'
+import AddTaskForm from './components/AddTaskForm.jsx'
 
 const columns = [
   { id: 'backlog', title: 'Бэклог', description: 'Задачи на потом' },
@@ -18,6 +19,15 @@ export default function App() {
     )
   }
 
+  function handleCreateTask(draft) {
+    const newTask = {
+      id: crypto.randomUUID(),
+      ...draft,
+    }
+
+    setTasks((currentTasks) => [...currentTasks, newTask])
+  }
+
   return (
     <main className="app-shell">
       <header className="page-header">
@@ -26,6 +36,8 @@ export default function App() {
         <p className="subtitle">Небольшая доска, чтобы держать рабочие задачи в фокусе.</p>
       </header>
 
+      <AddTaskForm columns={columns} onCreate={handleCreateTask} />
+      
       <section aria-label="Доска задач" className="board">
         {columns.map((column) => (
           <section className="column" key={column.id} aria-labelledby={column.id}>
