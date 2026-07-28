@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import useLocalStorage from './hooks/useLocalStorage.js'
 import TaskCard from './components/TaskCard.jsx'
 import seedTasks from './data/seedTasks.js'
 import AddTaskForm from './components/AddTaskForm.jsx'
@@ -11,7 +11,7 @@ const columns = [
 ]
 
 export default function App() {
-  const [tasks, setTasks] = useState(seedTasks)
+  const [tasks, setTasks] = useLocalStorage('focus-board-tasks', seedTasks)
 
   function handleDeleteTask(taskId) {
     setTasks((currentTasks) =>
