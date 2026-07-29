@@ -1,0 +1,25 @@
+.edit-task-form {
+  background: #f6f5ff;
+  border: 1px solid #dcd9ff;
+  border-radius: 16px;
+  display: grid;
+  gap: 14px;
+  margin: 0 0 28px;
+  padding: 20px;
+}
+
+.edit-task-form__heading { align-items: center; display: flex; gap: 18px; justify-content: space-between; }
+.edit-task-form__heading h2 { margin: 4px 0 0; }
+.edit-task-form__actions { display: flex; gap: 8px; }
+.edit-task-form label { color: #4e5970; display: grid; font-size: .85rem; font-weight: 700; gap: 6px; }
+.edit-task-form input, .edit-task-form textarea, .edit-task-form select { background: #fff; border: 1px solid #cfcbea; border-radius: 8px; color: #19233a; font: inherit; font-weight: 400; padding: 9px 10px; resize: vertical; width: 100%; }
+.edit-task-form input:focus, .edit-task-form textarea:focus, .edit-task-form select:focus { border-color: #5d55e8; outline: 2px solid #dcd9ff; }
+.edit-task-form__selects { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.button { border-radius: 9px; cursor: pointer; font: inherit; font-weight: 700; padding: 10px 14px; }
+.button--primary { background: #5d55e8; border: 1px solid #5d55e8; color: #fff; }
+.button--secondary { background: #fff; border: 1px solid #c5c9d6; color: #515d75; }
+
+@media (max-width: 600px) {
+  .edit-task-form__heading { align-items: flex-start; flex-direction: column; }
+  .edit-task-form__selects { grid-template-columns: 1fr; }
+}

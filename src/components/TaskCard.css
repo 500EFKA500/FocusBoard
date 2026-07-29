@@ -6,3 +6,7 @@
 .priority--high { background: #ffe5e7; color: #a5283b; }
 .priority--medium { background: #fff3cf; color: #865e00; }
 .priority--low { background: #def5e8; color: #16623b; }
+.task-card__actions { align-items: center; display: flex; gap: 12px; margin-top: 12px; }
+.task-card__actions .task-delete-button { margin-top: 0; }
+.task-edit-button { background: transparent; border: 0; color: #5148d8; cursor: pointer; font-size: .8rem; padding: 0; }
+.task-edit-button:hover { color: #392fc4; text-decoration: underline; }

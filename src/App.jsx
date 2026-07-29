@@ -1,4 +1,6 @@
 import useLocalStorage from './hooks/useLocalStorage.js'
+import { useState } from 'react'
+import EditTaskForm from './components/EditTaskForm.jsx'
 import TaskCard from './components/TaskCard.jsx'
 import seedTasks from './data/seedTasks.js'
 import AddTaskForm from './components/AddTaskForm.jsx'
@@ -12,11 +14,21 @@ const columns = [
 
 export default function App() {
   const [tasks, setTasks] = useLocalStorage('focus-board-tasks', seedTasks)
+  const [editingTask, setEditingTask] = useState(null)
 
   function handleDeleteTask(taskId) {
     setTasks((currentTasks) =>
       currentTasks.filter((task) => task.id !== taskId),
     )
+  }
+
+  function handleUpdateTask(updatedTask) {
+    setTasks((currentTasks) =>
+      currentTasks.map((task) =>
+        task.id === updatedTask.id ? updatedTask : task,
+      ),
+    )
+    setEditingTask(null)
   }
 
   function handleCreateTask(draft) {
@@ -37,6 +49,16 @@ export default function App() {
       </header>
 
       <AddTaskForm columns={columns} onCreate={handleCreateTask} />
+
+      {editingTask && (
+        <EditTaskForm
+          key={editingTask.id}
+          task={editingTask}
+          columns={columns}
+          onSave={handleUpdateTask}
+          onCancel={() => setEditingTask(null)}
+        />
+      )}
       
       <section aria-label="Доска задач" className="board">
         {columns.map((column) => (
@@ -50,7 +72,12 @@ export default function App() {
             <div className="task-list">
               {tasks
                 .filter((tasks) => tasks.status === column.id)
-                .map((task) => <TaskCard key={task.id} task={task} onDelete={handleDeleteTask} />)}
+                .map((task) => <TaskCard 
+                  key={task.id} 
+                  task={task} 
+                  onDelete={handleDeleteTask} 
+                  onEdit={setEditingTask} 
+                />)}
             </div>
             <button type="button">Добавить задачу</button>
           </section>
