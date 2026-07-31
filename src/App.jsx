@@ -4,6 +4,7 @@ import EditTaskForm from './components/EditTaskForm.jsx'
 import TaskCard from './components/TaskCard.jsx'
 import seedTasks from './data/seedTasks.js'
 import AddTaskForm from './components/AddTaskForm.jsx'
+import BoardColumn from './components/BoardColumn.jsx'
 
 const columns = [
   { id: 'backlog', title: 'Бэклог', description: 'Задачи на потом' },
@@ -40,6 +41,13 @@ export default function App() {
     setTasks((currentTasks) => [...currentTasks, newTask])
   }
 
+  function handleMoveTask(taskId, nextStatus) {
+    setTasks((currentTasks) =>
+      currentTasks.map((task) =>
+        task.id === taskId ? { ...task, status: nextStatus } : task,
+      ),
+    )
+  }
   return (
     <main className="app-shell">
       <header className="page-header">
@@ -62,25 +70,14 @@ export default function App() {
       
       <section aria-label="Доска задач" className="board">
         {columns.map((column) => (
-          <section className="column" key={column.id} aria-labelledby={column.id}>
-            <div className="column-heading">
-              <h2 id={column.id}>{column.title}</h2>
-              <span aria-label="Пока нет задач">{tasks
-                .filter((tasks) => tasks.status === column.id).length}</span>
-            </div>
-            <p>{column.description}</p>
-            <div className="task-list">
-              {tasks
-                .filter((tasks) => tasks.status === column.id)
-                .map((task) => <TaskCard 
-                  key={task.id} 
-                  task={task} 
-                  onDelete={handleDeleteTask} 
-                  onEdit={setEditingTask} 
-                />)}
-            </div>
-            <button type="button">Добавить задачу</button>
-          </section>
+          <BoardColumn
+            key={column.id}
+            column={column}
+            tasks={tasks.filter((task) => task.status === column.id)}
+            onDelete={handleDeleteTask}
+            onEdit={setEditingTask}
+            onMoveTask={handleMoveTask}
+          />
         ))}
       </section>
     </main>
