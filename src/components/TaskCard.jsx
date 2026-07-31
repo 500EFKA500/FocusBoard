@@ -3,9 +3,14 @@ import TaskDeleteButton from './TaskDeleteButton.jsx'
 
 const priorityLabels = { high: 'Высокий', medium: 'Средний', low: 'Низкий' }
 
-export default function TaskCard({ task, onDelete, onEdit }) {
+export default function TaskCard({ task, onDelete, onEdit, onDragStart, onDragEnd }) {
   return (
-    <article className="task-card">
+    <article
+      className="task-card"
+      draggable={Boolean(onDragStart)}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+    >
       <span className={`priority priority--${task.priority}`}>{priorityLabels[task.priority]}</span>
       <h3>{task.title}</h3>
       <p>{task.description}</p>

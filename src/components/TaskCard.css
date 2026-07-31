@@ -10,3 +10,5 @@
 .task-card__actions .task-delete-button { margin-top: 0; }
 .task-edit-button { background: transparent; border: 0; color: #5148d8; cursor: pointer; font-size: .8rem; padding: 0; }
 .task-edit-button:hover { color: #392fc4; text-decoration: underline; }
+.task-card[draggable='true'] { cursor: grab; }
+.task-card[draggable='true']:active { cursor: grabbing; opacity: .72; }
