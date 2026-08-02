@@ -1,3 +1,4 @@
 .column { transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease; }
 .column--drag-over { border-color: #6b63ee; box-shadow: 0 0 0 3px #dedbff; transform: translateY(-2px); }
 .column--drag-over .task-list { min-height: 72px; }
+.task-list__empty { border: 1px dashed #d9deea; border-radius: 9px; color: #80899b; font-size: .82rem; margin: 0; padding: 16px 10px; text-align: center; }
