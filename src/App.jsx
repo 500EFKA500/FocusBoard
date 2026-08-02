@@ -5,6 +5,7 @@ import TaskCard from './components/TaskCard.jsx'
 import seedTasks from './data/seedTasks.js'
 import AddTaskForm from './components/AddTaskForm.jsx'
 import BoardColumn from './components/BoardColumn.jsx'
+import TaskFilters from './components/TaskFilters.jsx'
 
 const columns = [
   { id: 'backlog', title: 'Бэклог', description: 'Задачи на потом' },
@@ -16,6 +17,18 @@ const columns = [
 export default function App() {
   const [tasks, setTasks] = useLocalStorage('focus-board-tasks', seedTasks)
   const [editingTask, setEditingTask] = useState(null)
+  const [filters, setFilters] = useState({ query: '', priority: 'all' })
+  const normalizedQuery = filters.query.trim().toLowerCase()
+
+  const visibleTasks = tasks.filter((task) => {
+    const matchesQuery =
+      task.title.toLowerCase().includes(normalizedQuery) ||
+      task.description.toLowerCase().includes(normalizedQuery)
+    const matchesPriority =
+      filters.priority === 'all' || task.priority === filters.priority
+
+    return matchesQuery && matchesPriority
+  })
 
   function handleDeleteTask(taskId) {
     setTasks((currentTasks) =>
@@ -68,12 +81,20 @@ export default function App() {
         />
       )}
       
+      <TaskFilters
+        filters={filters}
+        onChange={setFilters}
+        onReset={() => setFilters({ query: '', priority: 'all' })}
+        totalCount={tasks.length}
+        visibleCount={visibleTasks.length}
+      />
+      
       <section aria-label="Доска задач" className="board">
         {columns.map((column) => (
           <BoardColumn
             key={column.id}
             column={column}
-            tasks={tasks.filter((task) => task.status === column.id)}
+            tasks={visibleTasks.filter((task) => task.status === column.id)}
             onDelete={handleDeleteTask}
             onEdit={setEditingTask}
             onMoveTask={handleMoveTask}

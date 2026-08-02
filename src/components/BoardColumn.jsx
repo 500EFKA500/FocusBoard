@@ -46,6 +46,9 @@ export default function BoardColumn({ column, tasks, onDelete, onEdit, onMoveTas
       </div>
       <p>{column.description}</p>
       <div className="task-list">
+        {tasks.length === 0 && (
+          <p className="task-list__empty">Нет подходящих задач</p>
+        )}
         {tasks.map((task) => (
           <TaskCard
             key={task.id}
