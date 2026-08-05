@@ -5,14 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "node --watch server/server.js",
+    "start": "node server/server.js",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fastify/cors": "^11.3.0",
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
+    "fastify": "^5.11.2",
     "react": "latest",
-    "react-dom": "latest"
-  },
-  "devDependencies": {}
+    "react-dom": "latest",
+    "vite": "latest"
+  }
 }
