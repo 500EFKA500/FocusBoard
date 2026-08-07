@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { createTask as createTaskRequest, deleteTask as deleteTaskRequest, fetchTasks, updateTask as updateTaskRequest } from '../api/tasksApi.js'
 import useLocalStorage from './useLocalStorage.js'
 
 const initialFilters = {
@@ -6,9 +7,33 @@ const initialFilters = {
   priority: 'all',
 }
 
+function toErrorMessage(error) {
+  return error instanceof Error ? error.message : 'Неизвестная ошибка.'
+}
+
 export default function useTasks(initialTasks) {
   const [tasks, setTasks] = useLocalStorage('focus-board-tasks', initialTasks)
   const [filters, setFilters] = useState(initialFilters)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  const reloadTasks = useCallback(async () => {
+    setIsLoading(true)
+    setError(null)
+
+    try {
+      const serverTasks = await fetchTasks()
+      setTasks(serverTasks)
+    } catch (requestError) {
+      setError(toErrorMessage(requestError))
+    } finally {
+      setIsLoading(false)
+    }
+  }, [setTasks])
+
+  useEffect(() => {
+    reloadTasks()
+  }, [reloadTasks])
 
   const visibleTasks = useMemo(() => {
     const normalizedQuery = filters.query.trim().toLowerCase()
@@ -24,35 +49,55 @@ export default function useTasks(initialTasks) {
     })
   }, [filters, tasks])
 
-  function createTask(draft) {
-    const newTask = {
-      id: crypto.randomUUID(),
-      ...draft,
+  async function createTask(draft) {
+    setError(null)
+
+    try {
+      const newTask = await createTaskRequest(draft)
+      setTasks((currentTasks) => [newTask, ...currentTasks])
+      return newTask
+    } catch (requestError) {
+      setError(toErrorMessage(requestError))
+      return null
+    }
+  }
+
+  async function deleteTask(taskId) {
+    setError(null)
+
+    try {
+      await deleteTaskRequest(taskId)
+      setTasks((currentTasks) => currentTasks.filter((task) => task.id !== taskId))
+      return true
+    } catch (requestError) {
+      setError(toErrorMessage(requestError))
+      return false
+    }
+  }
+
+  async function updateTask(updatedTask) {
+    setError(null)
+
+    try {
+      const savedTask = await updateTaskRequest(updatedTask)
+      setTasks((currentTasks) =>
+        currentTasks.map((task) => task.id === savedTask.id ? savedTask : task),
+      )
+      return savedTask
+    } catch (requestError) {
+      setError(toErrorMessage(requestError))
+      return null
+    }
+  }
+
+  async function moveTask(taskId, nextStatus) {
+    const task = tasks.find((currentTask) => currentTask.id === taskId)
+
+    if (!task || task.status === nextStatus) {
+      return null
     }
 
-    setTasks((currentTasks) => [...currentTasks, newTask])
-  }
-
-  function deleteTask(taskId) {
-    setTasks((currentTasks) =>
-      currentTasks.filter((task) => task.id !== taskId),
-    )
-  }
-
-  function updateTask(updatedTask) {
-    setTasks((currentTasks) =>
-      currentTasks.map((task) =>
-        task.id === updatedTask.id ? updatedTask : task,
-      ),
-    )
-  }
-
-  function moveTask(taskId, nextStatus) {
-    setTasks((currentTasks) =>
-      currentTasks.map((task) =>
-        task.id === taskId ? { ...task, status: nextStatus } : task,
-      ),
-    )
+    return updateTask({ ...task, status: nextStatus })
   }
 
   function resetFilters() {
@@ -69,5 +114,8 @@ export default function useTasks(initialTasks) {
     deleteTask,
     updateTask,
     moveTask,
+    isLoading,
+    error,
+    reloadTasks,
   }
 }

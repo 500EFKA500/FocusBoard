@@ -3,6 +3,7 @@ import useTasks from './hooks/useTasks.js'
 import EditTaskForm from './components/EditTaskForm.jsx'
 import seedTasks from './data/seedTasks.js'
 import AddTaskForm from './components/AddTaskForm.jsx'
+import ApiStatus from './components/ApiStatus.jsx'
 import BoardColumn from './components/BoardColumn.jsx'
 import TaskFilters from './components/TaskFilters.jsx'
 
@@ -25,11 +26,17 @@ export default function App() {
     deleteTask,
     updateTask,
     moveTask,
+    isLoading,
+    error,
+    reloadTasks,
   } = useTasks(seedTasks)
 
-  function handleSaveTask(updatedTask) {
-    updateTask(updatedTask)
-    setEditingTask(null)
+  async function handleSaveTask(updatedTask) {
+    const savedTask = await updateTask(updatedTask)
+
+    if (savedTask) {
+      setEditingTask(null)
+    }
   }
 
   return (
@@ -40,6 +47,7 @@ export default function App() {
         <p className="subtitle">Небольшая доска, чтобы держать рабочие задачи в фокусе.</p>
       </header>
 
+      <ApiStatus isLoading={isLoading} error={error} onRetry={reloadTasks} />
       <AddTaskForm columns={columns} onCreate={createTask} />
 
       {editingTask && (
@@ -60,7 +68,7 @@ export default function App() {
         visibleCount={visibleTasks.length}
       />
 
-      <section aria-label="Доска задач" className="board">
+      <section aria-label="Доска задач" className="board" aria-busy={isLoading}>
         {columns.map((column) => (
           <BoardColumn
             key={column.id}

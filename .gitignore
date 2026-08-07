@@ -3,3 +3,5 @@ dist/
 docs/
 .env
 .DS_Store
+server/data/*.db
+server/data/*.db-*
