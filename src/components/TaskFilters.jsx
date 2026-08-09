@@ -15,7 +15,7 @@ export default function TaskFilters({ filters, onChange, onReset, totalCount, vi
           <p className="eyebrow">Find your focus</p>
           <h2>Поиск и фильтры</h2>
         </div>
-        <span>{visibleCount} из {totalCount}</span>
+        <span aria-live="polite">{visibleCount} из {totalCount}</span>
       </div>
 
       <div className="task-filters__controls">

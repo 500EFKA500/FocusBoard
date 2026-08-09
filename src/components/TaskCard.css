@@ -6,6 +6,9 @@
 .priority--high { background: #ffe5e7; color: #a5283b; }
 .priority--medium { background: #fff3cf; color: #865e00; }
 .priority--low { background: #def5e8; color: #16623b; }
+.task-status-control { color: #667187; display: grid; font-size: .75rem; font-weight: 700; gap: 4px; margin-top: 12px; }
+.task-status-control select { background: #fff; border: 1px solid #d8deeb; border-radius: 7px; color: #34405a; font: inherit; padding: 6px 8px; width: 100%; }
+.task-status-control select:focus { border-color: #5d55e8; outline: 2px solid #dcd9ff; }
 .task-card__actions { align-items: center; display: flex; gap: 12px; margin-top: 12px; }
 .task-card__actions .task-delete-button { margin-top: 0; }
 .task-edit-button { background: transparent; border: 0; color: #5148d8; cursor: pointer; font-size: .8rem; padding: 0; }
