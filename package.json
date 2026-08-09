@@ -8,6 +8,8 @@
     "server": "node --watch server/server.js",
     "start": "node server/server.js",
     "build": "vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -18,5 +20,11 @@
     "react": "latest",
     "react-dom": "latest",
     "vite": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.3",
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.10"
   }
 }

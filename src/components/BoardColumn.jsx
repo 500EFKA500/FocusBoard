@@ -47,7 +47,7 @@ export default function BoardColumn({ column, tasks, onDelete, onEdit, onMoveTas
       <p>{column.description}</p>
       <div className="task-list">
         {tasks.length === 0 && (
-          <p className="task-list__empty">Нет подходящих задач</p>
+          <p className="task-list__empty" role="status">Нет подходящих задач</p>
         )}
         {tasks.map((task) => (
           <TaskCard
@@ -55,6 +55,7 @@ export default function BoardColumn({ column, tasks, onDelete, onEdit, onMoveTas
             task={task}
             onDelete={onDelete}
             onEdit={onEdit}
+            onMove={onMoveTask}
             onDragStart={(event) => handleDragStart(event, task.id)}
             onDragEnd={() => setIsDragOver(false)}
           />
