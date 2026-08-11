@@ -1,0 +1,8 @@
+services:
+  focus-board:
+    build: .
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./focus-board-data:/app/data
+    restart: unless-stopped
