@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: focus-board
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
