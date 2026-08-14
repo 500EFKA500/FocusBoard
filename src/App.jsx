@@ -29,6 +29,7 @@ export default function App() {
     isLoading,
     error,
     reloadTasks,
+    isDemoMode,
   } = useTasks(seedTasks)
 
   async function handleSaveTask(updatedTask) {
@@ -47,7 +48,7 @@ export default function App() {
         <p className="subtitle">Небольшая доска, чтобы держать рабочие задачи в фокусе.</p>
       </header>
 
-      <ApiStatus isLoading={isLoading} error={error} onRetry={reloadTasks} />
+      <ApiStatus isLoading={isLoading} error={error} onRetry={reloadTasks} isDemoMode={isDemoMode} />
       <AddTaskForm columns={columns} onCreate={createTask} />
 
       {editingTask && (
