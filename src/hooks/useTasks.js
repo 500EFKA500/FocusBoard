@@ -7,17 +7,32 @@ const initialFilters = {
   priority: 'all',
 }
 
+const isDemoMode = import.meta.env.VITE_DEMO_MODE === 'true'
+
 function toErrorMessage(error) {
   return error instanceof Error ? error.message : 'Неизвестная ошибка.'
+}
+
+function createDemoTask(draft) {
+  return {
+    ...draft,
+    id: globalThis.crypto?.randomUUID?.() ?? `demo-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+  }
 }
 
 export default function useTasks(initialTasks) {
   const [tasks, setTasks] = useLocalStorage('focus-board-tasks', initialTasks)
   const [filters, setFilters] = useState(initialFilters)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(!isDemoMode)
   const [error, setError] = useState(null)
 
   const reloadTasks = useCallback(async () => {
+    if (isDemoMode) {
+      setError(null)
+      setIsLoading(false)
+      return
+    }
+
     setIsLoading(true)
     setError(null)
 
@@ -52,6 +67,12 @@ export default function useTasks(initialTasks) {
   async function createTask(draft) {
     setError(null)
 
+    if (isDemoMode) {
+      const newTask = createDemoTask(draft)
+      setTasks((currentTasks) => [newTask, ...currentTasks])
+      return newTask
+    }
+
     try {
       const newTask = await createTaskRequest(draft)
       setTasks((currentTasks) => [newTask, ...currentTasks])
@@ -65,6 +86,11 @@ export default function useTasks(initialTasks) {
   async function deleteTask(taskId) {
     setError(null)
 
+    if (isDemoMode) {
+      setTasks((currentTasks) => currentTasks.filter((task) => task.id !== taskId))
+      return true
+    }
+
     try {
       await deleteTaskRequest(taskId)
       setTasks((currentTasks) => currentTasks.filter((task) => task.id !== taskId))
@@ -77,6 +103,13 @@ export default function useTasks(initialTasks) {
 
   async function updateTask(updatedTask) {
     setError(null)
+
+    if (isDemoMode) {
+      setTasks((currentTasks) =>
+        currentTasks.map((task) => task.id === updatedTask.id ? updatedTask : task),
+      )
+      return updatedTask
+    }
 
     try {
       const savedTask = await updateTaskRequest(updatedTask)
@@ -117,5 +150,6 @@ export default function useTasks(initialTasks) {
     isLoading,
     error,
     reloadTasks,
+    isDemoMode,
   }
 }
