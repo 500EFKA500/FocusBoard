@@ -18,5 +18,5 @@ export default function ApiStatus({ isLoading, error, onRetry, isDemoMode }) {
     )
   }
 
-  return null
+  return <p className="api-status api-status--success" role="status">Задачи синхронизированы с API</p>
 }

@@ -1,4 +1,5 @@
 .api-status { background: #eef4ff; border: 1px solid #cddcff; border-radius: 12px; color: #314b83; margin: 0 0 20px; padding: 12px 14px; }
+.api-status--success { background: #eefaf3; border-color: #c9ead7; color: #216340; }
 .api-status--demo { background: #f3f1ff; border-color: #d9d4ff; color: #5148d8; }
 .api-status--error { align-items: center; background: #fff2f3; border-color: #ffd1d7; color: #9a3142; display: flex; gap: 14px; justify-content: space-between; }
 .api-status--error p { margin: 0; }

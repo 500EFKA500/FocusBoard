@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import useTasks from './hooks/useTasks.js'
 import EditTaskForm from './components/EditTaskForm.jsx'
 import seedTasks from './data/seedTasks.js'
@@ -32,6 +32,17 @@ export default function App() {
     isDemoMode,
   } = useTasks(seedTasks)
 
+  const boardStats = useMemo(() => {
+    const inProgressCount = tasks.filter((task) => task.status === 'in-progress').length
+    const doneCount = tasks.filter((task) => task.status === 'done').length
+
+    return [
+      { label: 'Всего задач', value: tasks.length },
+      { label: 'В работе', value: inProgressCount },
+      { label: 'Готово', value: doneCount },
+    ]
+  }, [tasks])
+
   async function handleSaveTask(updatedTask) {
     const savedTask = await updateTask(updatedTask)
 
@@ -43,9 +54,19 @@ export default function App() {
   return (
     <main className="app-shell">
       <header className="page-header">
-        <p className="eyebrow">Personal productivity</p>
-        <h1>FocusBoard</h1>
-        <p className="subtitle">Небольшая доска, чтобы держать рабочие задачи в фокусе.</p>
+        <div>
+          <p className="eyebrow">Personal productivity</p>
+          <h1>FocusBoard</h1>
+          <p className="subtitle">Небольшая Kanban-доска, чтобы держать рабочие задачи в фокусе.</p>
+        </div>
+        <dl className="board-stats" aria-label="Статистика задач">
+          {boardStats.map((stat) => (
+            <div key={stat.label}>
+              <dt>{stat.label}</dt>
+              <dd>{stat.value}</dd>
+            </div>
+          ))}
+        </dl>
       </header>
 
       <ApiStatus isLoading={isLoading} error={error} onRetry={reloadTasks} isDemoMode={isDemoMode} />

@@ -61,7 +61,6 @@ export default function BoardColumn({ column, tasks, onDelete, onEdit, onMoveTas
           />
         ))}
       </div>
-      <button type="button">Добавить задачу</button>
     </section>
   )
 }
