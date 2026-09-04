@@ -1,11 +1,13 @@
 import { useMemo, useState } from 'react'
 import useTasks from './hooks/useTasks.js'
+import useTheme from './hooks/useTheme.js'
 import EditTaskForm from './components/EditTaskForm.jsx'
 import seedTasks from './data/seedTasks.js'
 import AddTaskForm from './components/AddTaskForm.jsx'
 import ApiStatus from './components/ApiStatus.jsx'
 import BoardColumn from './components/BoardColumn.jsx'
 import TaskFilters from './components/TaskFilters.jsx'
+import ThemePreference from './components/ThemePreference.jsx'
 
 const columns = [
   { id: 'backlog', title: 'Бэклог', description: 'Задачи на потом' },
@@ -16,6 +18,7 @@ const columns = [
 
 export default function App() {
   const [editingTask, setEditingTask] = useState(null)
+  const [theme, setTheme] = useTheme()
   const {
     tasks,
     visibleTasks,
@@ -59,16 +62,20 @@ export default function App() {
           <h1>FocusBoard</h1>
           <p className="subtitle">Небольшая Kanban-доска, чтобы держать рабочие задачи в фокусе.</p>
         </div>
-        <dl className="board-stats" aria-label="Статистика задач">
-          {boardStats.map((stat) => (
-            <div key={stat.label}>
-              <dt>{stat.label}</dt>
-              <dd>{stat.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <div className="header-tools">
+          <ThemePreference theme={theme} onChange={setTheme} />
+          <dl className="board-stats" aria-label="Статистика задач">
+            {boardStats.map((stat) => (
+              <div key={stat.label}>
+                <dt>{stat.label}</dt>
+                <dd>{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </header>
 
+      <p className="board-hint">Совет: перетащи задачу мышью или выбери колонку в карточке — оба способа доступны.</p>
       <ApiStatus isLoading={isLoading} error={error} onRetry={reloadTasks} isDemoMode={isDemoMode} />
       <AddTaskForm columns={columns} onCreate={createTask} />
 
